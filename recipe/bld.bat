@@ -3,7 +3,7 @@ mkdir build && cd build
 
 set CMAKE_CONFIG="Release"
 
-cmake -LAH -G"NMake Makefiles"                             ^
+cmake -LAH -G"Ninja"                                       ^
   -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%"                ^
   -DCMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"                   ^
   -DCMAKE_BUILD_TYPE="%CMAKE_CONFIG%"                      ^
@@ -22,7 +22,7 @@ if errorlevel 1 exit 1
 
 del CMakeCache.txt
 
-cmake -LAH -G"NMake Makefiles"                             ^
+cmake -LAH -G"Ninja"                                       ^
   -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%"                ^
   -DCMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"                   ^
   -DCMAKE_BUILD_TYPE="%CMAKE_CONFIG%"                      ^

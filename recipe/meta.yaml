@@ -17,6 +17,9 @@ requirements:
     - {{ compiler('c') }}
     - perl                 # [not win]
     - cmake                # [win]
+    - ninja                # [win]
+  run_exports:
+    - {{ pin_subpackage('fftw', max_pin='x.x') }}
 
 test:
   commands:
