@@ -18,13 +18,19 @@ TEST_CMD="eval cd tests && make check-local && cd -"
 #
 # We build 3 different versions of fftw:
 #
+if [[ "$target_platform" == "linux-64" ]] || [[ "$target_platform" == "linux-32" ]] || [[ "$target_platform" == "osx-64" ]]; then
+  ARCH_OPTS_SINGLE="--enable-sse --enable-sse2 --enable-avx"
+  ARCH_OPTS_DOUBLE="--enable-sse2 --enable-avx"
+  ARCH_OPTS_LONG_DOUBLE="--enable-long-double"
+fi
+
 build_cases=(
     # single
-    "$CONFIGURE --enable-float --enable-sse --enable-sse2 --enable-avx"
+    "$CONFIGURE --enable-float ${ARCH_OPTS_SINGLE}"
     # double
-    "$CONFIGURE --enable-sse2 --enable-avx"
+    "$CONFIGURE ${ARCH_OPTS_DOUBLE}"
     # long double (SSE2 and AVX not supported)
-    "$CONFIGURE --enable-long-double"
+    "$CONFIGURE ${ARCH_OPTS_LONG_DOUBLE}"
 )
 
 for config in "${build_cases[@]}"
