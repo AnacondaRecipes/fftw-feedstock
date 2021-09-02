@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cp -r ${BUILD_PREFIX}/share/libtool/build-aux/config.* .
+
 export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
 export CFLAGS="${CFLAGS} -I${PREFIX}/include -O3 -fomit-frame-pointer -fstrict-aliasing -ffast-math"
 

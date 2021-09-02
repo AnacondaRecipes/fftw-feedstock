@@ -19,6 +19,7 @@ requirements:
     - cmake                # [win]
     - ninja                # [win]
     - make                 # [not win]
+    - libtool              # [not win]
   run_exports:
     - {{ pin_subpackage('fftw', max_pin='x.x') }}
 
