@@ -5,7 +5,7 @@ package:
   version: {{ version }}
 
 source:
-  url: http://www.fftw.org/fftw-{{ version }}.tar.gz
+  url: https://www.fftw.org/fftw-{{ version }}.tar.gz
   sha256: bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d
 
 build:
