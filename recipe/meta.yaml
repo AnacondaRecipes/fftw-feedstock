@@ -1,39 +1,46 @@
-{% set version = "3.3.9" %}
+{% set name = "fftw" %}
+{% set version = "3.3.10" %}
 
 package:
-  name: fftw
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://www.fftw.org/fftw-{{ version }}.tar.gz
-  sha256: bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d
+  url: https://www.fftw.org/{{ name }}-{{ version }}.tar.gz
+  sha256: 56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
+  patches:  # [win]
+    - patches/0001-patch-cmake.patch  # [win]
 
 build:
-  number: 2
+  number: 0
   run_exports:
     - {{ pin_subpackage('fftw', max_pin='x.x') }}
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
-    - perl                 # [not win]
     - cmake                # [win]
-    - ninja                # [win]
+    - ninja-base           # [win]
+    - perl                 # [not win]
     - make                 # [not win]
     - libtool              # [not win]
 
 test:
+  requires:
+    - python
   commands:
-    - exit $(test -f ${PREFIX}/lib/libfftw3f.a)          # [not win]
-    - exit $(test -f ${PREFIX}/lib/libfftw3.a)           # [not win]
-    - exit $(test -f ${PREFIX}/lib/libfftw3l.a)          # [not win]
-    - exit $(test -f ${PREFIX}/lib/libfftw3f_threads.a)  # [not win]
-    - exit $(test -f ${PREFIX}/lib/libfftw3_threads.a)   # [not win]
-    - exit $(test -f ${PREFIX}/lib/libfftw3l_threads.a)  # [not win]
+    # ARM doesn't support long double thus the skip on the libs
+    - test -f ${PREFIX}/lib/libfftw3f.a           # [not win]
+    - test -f ${PREFIX}/lib/libfftw3.a            # [not win]
+    - test -f ${PREFIX}/lib/libfftw3l.a           # [not (win or aarch64 or arm64)]
+    - test -f ${PREFIX}/lib/libfftw3f_threads.a   # [not win]
+    - test -f ${PREFIX}/lib/libfftw3_threads.a    # [not win]
+    - test -f ${PREFIX}/lib/libfftw3l_threads.a   # [not (win or aarch64 or arm64)]
 
     # Verify headers are installed
-    - test -f ${PREFIX}/include/fftw3.h                  # [not win]
-    - if not exist %LIBRARY_INC%\\fftw3.h exit 1         # [win]
+    - test -f ${PREFIX}/include/fftw3.h           # [not win]
+    - if not exist %LIBRARY_INC%\\fftw3.h exit 1  # [win]
 
     # Verify shared libraries are installed
     {% set fftw_libs = [
@@ -41,13 +48,17 @@ test:
             "libfftw3_threads",
             "libfftw3f",
             "libfftw3f_threads",
-            "libfftw3l",
-            "libfftw3l_threads",
+            "libfftw3l",          # [not (aarch64 or arm64)]
+            "libfftw3l_threads",  # [not (aarch64 or arm64)]
     ] %}
 
-    {% set fftw_libs = ["fftw3f", "fftw3"] %}
+    {% for lib in fftw_libs %}
+    - python -c "import ctypes; ctypes.cdll[r'${PREFIX}/lib/{{ lib }}${SHLIB_EXT}']"  # [unix]
+    {% endfor %}
 
-    {% for base in fftw_libs %}
+    {% set win_fftw_libs = ["fftw3f", "fftw3"] %}
+
+    {% for base in win_fftw_libs %}
     - if not exist %LIBRARY_LIB%\\{{ base }}.lib exit 1  # [win]
     - if not exist %LIBRARY_BIN%\\{{ base }}.dll exit 1  # [win]
     {% endfor %}

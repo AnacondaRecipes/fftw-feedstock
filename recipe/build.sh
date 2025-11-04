@@ -20,7 +20,7 @@ TEST_CMD="eval cd tests && make check-local && cd -"
 #
 # We build 3 different versions of fftw:
 #
-if [[ "$target_platform" == "linux-64" ]] || [[ "$target_platform" == "linux-32" ]] || [[ "$target_platform" == "osx-64" ]]; then
+if [[ "$target_platform" == "linux-64" ]] || [[ "$target_platform" == "linux-32" ]]; then
   ARCH_OPTS_SINGLE="--enable-sse --enable-sse2 --enable-avx"
   ARCH_OPTS_DOUBLE="--enable-sse2 --enable-avx"
   ARCH_OPTS_LONG_DOUBLE="--enable-long-double"

@@ -1,0 +1,22 @@
+From 37ed05b99f33bd00f0db3b17a45d8ce3aea202d7 Mon Sep 17 00:00:00 2001
+From: Ivan Iziumov <iiziumov@anaconda.com>
+Date: Mon, 3 Nov 2025 17:13:05 +0100
+Subject: [PATCH] patch cmake
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4d0496b1..99eeddb2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required (VERSION 3.0)
++cmake_minimum_required(VERSION 3.10)
+ 
+ if (NOT DEFINED CMAKE_BUILD_TYPE)
+   set (CMAKE_BUILD_TYPE Release CACHE STRING "Build type")
+-- 
+2.50.1 (Apple Git-155)
+
