@@ -1,5 +1,5 @@
 anaconda_config_version: 1
 upstream_sources:
   - webpage:
-      url: http://www.fftw.org/download.html
+      url: https://fftw.org/pub/fftw/
       regex: fftw-([\d.]+)\.tar\.gz
